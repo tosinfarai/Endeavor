@@ -22,18 +22,18 @@ import com.example.endeavor.exceptions.ResourceNotFoundException;
 import com.example.endeavor.repositories.UserRepository;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/users")
 public class UserController {
 	
 	@Autowired
 	private UserRepository userRepository;
 	
-	@GetMapping("/users")
+	@GetMapping
 	public List<User> getUsers() {
 		return userRepository.findAll();
 	}
 	
-	@GetMapping("/users/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<User> getUserById(@PathVariable(value = "id") Long userId)
 		throws ResourceNotFoundException {
 	        User user = userRepository.findById(userId)
@@ -42,12 +42,12 @@ public class UserController {
 	        return ResponseEntity.ok().body(user);
 	}
 	
-	@PostMapping("/users")
+	@PostMapping
 	public User createUser (@Valid @RequestBody User user) {
 		return userRepository.save(user);
 	}
 	
-	@PutMapping("/users/{id}")
+	@PutMapping("/{id}")
 	public ResponseEntity<User> updateUser(@PathVariable(value = "id") Long userId,
 			@Valid @RequestBody User userDetails) throws ResourceNotFoundException {
 		User user = userRepository.findById(userId)
@@ -62,7 +62,7 @@ public class UserController {
 		return ResponseEntity.ok(updatedUser);
 	}
 	
-	@DeleteMapping("/users/{id}")
+	@DeleteMapping("/{id}")
 	public Map<String, Boolean> deleteUser(@PathVariable(value = "id") Long userId)
 			throws ResourceNotFoundException {
 		User user = userRepository.findById(userId)
